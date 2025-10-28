@@ -1,0 +1,65 @@
+{
+  "categories": [
+    {
+      "title": "AI & Machine Learning",
+      "desc": "Leverage AI and machine learning...",
+      "icon": "FaBrain"
+    },
+    {
+      "title": "Data Science & Big Data",
+      "desc": "Analyze massive datasets...",
+      "icon": "FaDatabase"
+    },
+     {
+      "title": "Blockchain & Web3",
+      "desc": "Develop decentralized apps...",
+      "icon": "FaCube"
+    },
+    {
+      "title": "Cybersecurity",
+      "desc": "Protect systems and networks...",
+      "icon": "FaShieldAlt"
+    },
+   
+    {
+      "title": "Cloud Computing & DevOps",
+      "desc": "Build scalable applications...",
+      "icon": "FaCloud"
+    },
+    {
+      "title": "Augmented & Virtual Reality (AR/VR)",
+      "desc": "Create immersive AR/VR experiences...",
+      "icon": "FaVrCardboard"
+    },
+    {
+      "title": "Internet of Things (IoT)",
+      "desc": "Connect and control smart devices...",
+      "icon": "FaNetworkWired"
+    },
+    {
+      "title": "VLSI & FPGA Projects",
+      "desc": "Design and implement efficient digital circuits...",
+      "icon": "FaMicrochip"
+    },
+    {
+      "title": "Signal Processing",
+      "desc": "Analyze, filter, and process signals...",
+      "icon": "FaWaveSquare"
+    },
+    {
+      "title": "Power Systems & Smart Grid",
+      "desc": "Design modern power systems...",
+      "icon": "FaBolt"
+    },
+    {
+      "title": "PID Control & Robotics",
+      "desc": "Implement control systems and robotics...",
+      "icon": "FaRobot"
+    },
+    {
+      "title": "Mechatronics",
+      "desc": "Integrate mechanical, electronic systems...",
+      "icon": "FaCogs"
+    }
+  ]
+}
