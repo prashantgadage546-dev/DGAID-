@@ -2,7 +2,7 @@ import React from "react";
 import "./Navbar.css";
 import { IoIosSearch } from "react-icons/io";
 // import Symboll from '../assets/Symboll.png';
-import logo from '../assets/Dglogo.png';
+import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
