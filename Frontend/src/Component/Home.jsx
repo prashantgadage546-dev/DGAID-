@@ -1,6 +1,6 @@
 import React from "react";
 import "./Home.css";
-import data from "../data/data.json";
+import data from "../Data/Data.json";
 import { Link } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 
