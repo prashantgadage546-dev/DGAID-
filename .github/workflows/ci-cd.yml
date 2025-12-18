@@ -37,7 +37,7 @@ jobs:
     
 
 
-name: CD - VPS Deploy
+# name: CD - VPS Deploy
 
 on:
   push:
