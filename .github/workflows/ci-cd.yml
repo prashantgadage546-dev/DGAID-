@@ -1,57 +1,23 @@
-name: DGAID Fullstack CI/CD
+cd:
+  name: Deploy to VPS
+  runs-on: ubuntu-latest
+  needs: ci
 
-on:
-  push:
-    branches:
-      - main
+  steps:
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          docker pull prashant4593/dgaid-frontend:latest
+          docker pull prashant4593/dgaid-backend:latest
 
-jobs:
-  ci:
-    name: Build & Push Docker Images
-    runs-on: ubuntu-latest
+          docker stop frontend || true
+          docker rm frontend || true
+          docker stop backend || true
+          docker rm backend || true
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Docker Login
-        uses: docker/login-action@v3
-        with:
-          username: ${{  }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build Frontend Image
-        run: docker build -t prashant4593/dgaid-frontend:latest ./Frontend
-
-      - name: Push Frontend Image
-        run: docker push prashant4593/dgaid-frontend:latest
-
-      - name: Build Backend Image
-        run: docker build -t prashant4593/dgaid-backend:latest ./Backend
-
-      - name: Push Backend Image
-        run: docker push prashant4593/dgaid-backend:latest
-
-  cd:
-    name: Deploy to VPS
-    runs-on: ubuntu-latest
-    needs: ci
-
-    steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            docker pull prashant4593/dgaid-frontend:latest
-            docker pull prashant4593/dgaid-backend:latest
-
-            docker stop frontend || true
-            docker rm frontend || true
-            docker stop backend || true
-            docker rm backend || true
-
-            docker run -d --name frontend -p 80:80 prashant4593/dgaid-frontend:latest
-            docker run -d --name backend -p 3000:3000 prashant4593/dgaid-backend:latest
+          docker run -d --name frontend -p 80:80 prashant4593/dgaid-frontend:latest
+          docker run -d --name backend -p 3000:3000 prashant4593/dgaid-backend:latest
