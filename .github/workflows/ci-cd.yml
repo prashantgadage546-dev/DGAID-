@@ -1,23 +1,34 @@
-cd:
-  name: Deploy to VPS
-  runs-on: ubuntu-latest
-  needs: ci
+name: CI/CD Pipeline
 
-  steps:
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          docker pull prashant4593/dgaid-frontend:latest
-          docker pull prashant4593/dgaid-backend:latest
+on:
+  push:
+    branches:
+      - master
 
-          docker stop frontend || true
-          docker rm frontend || true
-          docker stop backend || true
-          docker rm backend || true
+jobs:
+  deploy-to-vps:
+    runs-on: ubuntu-latest
 
-          docker run -d --name frontend -p 80:80 prashant4593/dgaid-frontend:latest
-          docker run -d --name backend -p 3000:3000 prashant4593/dgaid-backend:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          source: "."
+          target: "/home/username/app"
+
+      - name: SSH commands on VPS
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          script: |
+            cd /home/username/app
+            docker-compose down
+            docker-compose up -d --build
