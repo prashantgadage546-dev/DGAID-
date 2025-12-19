@@ -1,23 +1,43 @@
-cd:
-  name: Deploy to VPS
-  runs-on: ubuntu-latest
-  needs: ci
+name: CI/CD Pipeline
 
-  steps:
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          docker pull prashant4593/dgaid-frontend:latest
-          docker pull prashant4593/dgaid-backend:latest
+on:
+  push:
+    branches:
+      - main  # मुख्य branch वर push झाल्यावर trigger होईल
 
-          docker stop frontend || true
-          docker rm frontend || true
-          docker stop backend || true
-          docker rm backend || true
+jobs:
+  deploy-to-vps:
+    runs-on: ubuntu-latest
 
-          docker run -d --name frontend -p 80:80 prashant4593/dgaid-frontend:latest
-          docker run -d --name backend -p 3000:3000 prashant4593/dgaid-backend:latest
+    steps:
+      # 1️⃣ Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2️⃣ Copy files to VPS via SCP
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}   # private key GitHub Secret
+          port: 22
+          source: "."                       # repo contents
+          target: "/home/${{ secrets.VPS_USER }}/app"
+          overwrite: true
+          debug: true
+
+      # 3️⃣ Run Docker commands on VPS
+      - name: Run commands on VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          debug: true
+          script: |
+            cd /home/${{ secrets.VPS_USER }}/app
+            docker-compose pull        # latest images pull
+            docker-compose down
+            docker-compose up -d --build
