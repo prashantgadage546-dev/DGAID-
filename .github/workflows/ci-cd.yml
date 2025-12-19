@@ -1,12 +1,12 @@
-name: CI/CD Pipeline
+name: Deploy to VPS
 
 on:
   push:
     branches:
-      - main
+      - main  # किंवा master branch, ज्या branch वर deploy करायचे
 
 jobs:
-  deploy-to-vps:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,23 +18,10 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          key: ${{ secrets.VPS_KEY }}   
           port: 22
-          source: "."
-          target: "/home/${{ secrets.VPS_USER }}/app"
+          source: "."          # जे folder deploy करायचा आहे
+          target: "/root/app"
           overwrite: true
           debug: true
-
-      - name: Run commands on VPS
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          debug: true
-          script: |
-            cd /home/${{ secrets.VPS_USER }}/app
-            docker-compose pull
-            docker-compose down
-            docker-compose up -d --build
+          timeout: 30s
