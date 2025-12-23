@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_KEY }}   
           port: 22
-          source: "."          # जे folder deploy करायचा आहे
+          source: "."          
           target: "/root/app"
           overwrite: true
           debug: true
