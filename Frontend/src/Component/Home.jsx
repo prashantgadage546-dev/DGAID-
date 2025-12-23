@@ -14,7 +14,9 @@ const Home = () => {
           <div className="hero-content">
             <div className="Dgaid">
               <h1>DG</h1>
-              <h1 className="Aid">AID</h1>
+              <h1 className="Aid">AID 
+              <h1>Hello Prashant 🚀 Updated</h1>
+              </h1>
             </div>
       
             <h1>Hello Prashant 🚀 Updated</h1>
