@@ -27,6 +27,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "Frontend"
           target: ${{ secrets.VPS_PATH }}
+          overwrite: true
 
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v1.0.0
