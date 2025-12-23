@@ -13,18 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install & Build
+      - name: Install & Build Frontend
+        working-directory: ./app/Frontend
         run: |
           npm install
           npm run build
 
-      - name: Copy code to VPS
+      - name: Copy Frontend to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "."
+          source: "app/Frontend"
           target: ${{ secrets.VPS_PATH }}
 
       - name: Deploy on VPS
