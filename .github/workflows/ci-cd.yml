@@ -1,43 +1,27 @@
-name: CI/CD Pipeline
+name: Deploy to VPS
 
 on:
   push:
     branches:
-      - main  # मुख्य branch वर push झाल्यावर trigger होईल
+      - main  # किंवा master branch, ज्या branch वर deploy करायचे
 
 jobs:
-  deploy-to-vps:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Copy files to VPS via SCP
       - name: Copy files to VPS
         uses: appleboy/scp-action@v0.1.5
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}   # private key GitHub Secret
+          key: ${{ secrets.VPS_KEY }}   
           port: 22
-          source: "."                       # repo contents
-          target: "/home/${{ secrets.VPS_USER }}/app"
+          source: "."          
+          target: "/root/app"
           overwrite: true
           debug: true
-
-      # 3️⃣ Run Docker commands on VPS
-      - name: Run commands on VPS
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          debug: true
-          script: |
-            cd /home/${{ secrets.VPS_USER }}/app
-            docker-compose pull        # latest images pull
-            docker-compose down
-            docker-compose up -d --build
+          timeout: 30s

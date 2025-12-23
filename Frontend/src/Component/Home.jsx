@@ -16,8 +16,11 @@ const Home = () => {
               <h1>DG</h1>
               <h1 className="Aid">AID</h1>
             </div>
+      
+            <h1>Hello Prashant 🚀 Updated</h1>
+
             <p>
-              Unlock Your Digital Potential. Explore<br />Our Premium Projects – Starting at Just ₹999
+               Hope fully everithing successful  Unlock Your Digital Potential. Explore<br />Our Premium Projects – Starting at Just ₹999
             </p>
 
             {/* Buttons Section */}
