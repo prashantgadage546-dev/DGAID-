@@ -1,15 +1,7 @@
-    FROM node:18
+FROM nginx:alpine
 
-    WORKDIR /app
+COPY dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-    COPY package*.json ./
-    RUN npm install --legacy-peer-deps
-
-    COPY . .
-
-    RUN npm run build
-
-    RUN npm install -g serve
-    EXPOSE 3000
-
-    CMD ["serve", "-s", "build", "-l", "3000"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
