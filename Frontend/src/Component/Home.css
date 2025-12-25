@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(to right, black 60%, #0033cc 100%);
+  background: linear-gradient(to right ,gray 60%, #0033cc 100%);
   color: white;
   padding: 0 50px;
 }

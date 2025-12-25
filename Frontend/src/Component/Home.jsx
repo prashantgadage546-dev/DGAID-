@@ -15,7 +15,6 @@ const Home = () => {
             <div className="Dgaid">
               <h1>DG</h1>
               <h1 className="Aid">AID 
-              <h1>Hello Prashant 🚀 Updated</h1>
               </h1>
             </div>
       
